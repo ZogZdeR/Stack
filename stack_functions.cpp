@@ -5,11 +5,10 @@ Error stack_initialiser (size_t capacity, Stack_stucture *structure)
     if (structure == NULL) return struct_nullptr;
     structure->capacity = capacity;
     structure->size = 0;
-    structure->Stack = (size_t*)calloc (capacity + 2, sizeof (int));
+    structure->Stack = (size_t*)calloc (capacity + 2, sizeof (size_t));
+    if (structure->Stack == NULL) return stack_nullptr;
     structure->Stack[0] = cannary_contraception;
     structure->Stack[capacity + 1] = cannary_contraception;
-    
-    if (structure->Stack == NULL) return stack_nullptr;
     return OK;
 }
 
@@ -53,7 +52,7 @@ void push (Stack_stucture *structure, size_t a)
         if (structure->size < structure->capacity)
         {
             structure->size ++;
-            structure->Stack[structure->size + 1] = a;
+            structure->Stack[structure->size] = a;
         }
         else 
         {
@@ -104,13 +103,13 @@ void Dump (Stack_stucture *structure, Error err)
 
 void print_error (Error err)
 {
-    printf (red "Error code is %d" normal "\n"
+    printf (red "Error code is %lu" normal "\n"
         cyan "Error codes :" normal "\n"
         magenta "struct_nullptr = 1" normal "\n"
         magenta "stack_nullptr = 2" normal "\n"
         magenta "bigger_size = 3" normal "\n"
         magenta "cannary_spoiled_beg = 4" normal "\n"
-        magenta "cannary_spoiled_end = 5" normal "\n", (int)err);
+        magenta "cannary_spoiled_end = 5" normal "\n", (size_t)err);
 }
 
 void Stack_print (Stack_stucture *structure)
